@@ -1,10 +1,8 @@
-# The Official raywenderlich.com C# Style Guide
+# ninito-ph C# Style Guide
 
-This style guide is different from others you may find, because the focus is
-centered on readability for print and the web. We created this style guide to
-keep the code in our tutorials consistent.  
+This style guide is a fork of raywenderlich's C# style guide.  
 
-Our overarching goals are **conciseness**, **readability** and **simplicity**. Also, this guide is written to keep **Unity** in mind. 
+Its overarching goals are **conciseness**, **readability** and **simplicity**. Also, this guide is written primarily for **Unity**. 
 
 ## Inspiration
 
@@ -12,6 +10,7 @@ This style guide is based on C# and Unity conventions.
 
 ## Table of Contents
 
+- [Comments and Documentation](#comments--documentation)  
 - [Nomenclature](#nomenclature)
   + [Namespaces](#namespaces)
   + [Classes & Interfaces](#classes--interfaces)
@@ -26,6 +25,7 @@ This style guide is based on C# and Unity conventions.
   + [Fields & Variables](#fields--variables)
   + [Classes](#classes)
   + [Interfaces](#interfaces)
+  + [Attributes](#attributes)
 - [Spacing](#spacing)
   + [Indentation](#indentation)
   + [Line Length](#line-length)
@@ -33,10 +33,30 @@ This style guide is based on C# and Unity conventions.
 - [Brace Style](#brace-style)
 - [Switch Statements](#switch-statements)
 - [Language](#language)
-- [Copyright Statement](#copyright-statement)
-- [Smiley Face](#smiley-face)
 - [Credit](#credits)
 
+
+## Comments and Documentation
+
+All methods and classes should have names that makes their purpose evident. To further aid in making code as easily comprehensible as possible, every method and class should be documented in XML, and particularly complex sections should be documented with regular comments, in a step-by-step style.
+
+**AVOID**:
+
+```csharp
+public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+```
+
+**PREFER**:
+
+```csharp
+/// <summary>
+///   <para>Override this method to make your own IMGUI based GUI for the property.</para>
+/// </summary>
+/// <param name="position">Rectangle on the screen to use for the property GUI.</param>
+/// <param name="property">The SerializedProperty to make the custom GUI for.</param>
+/// <param name="label">The label of this property.</param>
+public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+```
 
 ## Nomenclature
 
@@ -200,24 +220,44 @@ RadialSlider
 IRadialSlider
 ```
 
+### Attributes
+
+All attributes should be placed on their own line, directly above whatever they're modifying.
+
+**AVOID:**
+
+```csharp
+[SerializeField] [Tooltip("Many attributes on a single line!")] [Range(0, 1)]
+private int variable;
+```
+
+**PREFER:**
+
+```csharp
+[SerializeField]
+[Tooltip("Many attributes stacked!)]
+[Range(0, 1)]
+private int variable;
+```
+
 ## Spacing
 
-Spacing is especially important in raywenderlich.com code, as code needs to be easily readable as part of the tutorial. 
+Spacing is especially important in code, as it needs to be easily readable at any point. 
 
 ### Indentation
 
-Indentation should be done using **spaces** — never tabs.  
+Indentation should be done using **tabs**, never spaces.  
 
 #### Blocks
 
-Indentation for blocks uses **4 spaces** for optimal readability:
+Indentation for blocks uses **one tab, configured as 4-spaces long (Default in most IDEs)** for optimal readability:
 
 **AVOID:**
 
 ```csharp
 for (int i = 0; i < 10; i++) 
 {
-  Debug.Log("index=" + i);
+    Debug.Log("index=" + i);
 }
 ```
 
@@ -232,25 +272,25 @@ for (int i = 0; i < 10; i++)
 
 #### Line Wraps
 
-Indentation for line wraps should use **4 spaces** (not the default 8):
+Indentation for line wraps should use **2 tabs** (not the default 1):
 
 **AVOID:**
-
-```csharp
-CoolUiWidget widget =
-        someIncrediblyLongExpression(that, reallyWouldNotFit, on, aSingle, line);
-```
-
-**PREFER:**
 
 ```csharp
 CoolUiWidget widget =
     someIncrediblyLongExpression(that, reallyWouldNotFit, on, aSingle, line);
 ```
 
+**PREFER:**
+
+```csharp
+CoolUiWidget widget =
+        someIncrediblyLongExpression(that, reallyWouldNotFit, on, aSingle, line);
+```
+
 ### Line Length
 
-Lines should be no longer than **100** characters long.
+Lines should be no longer than **120** characters long.
 
 ### Vertical Spacing
 
@@ -259,6 +299,8 @@ and organization. Whitespace within methods should separate functionality, but
 having too many sections in a method often means you should refactor into
 several methods.
 
+Furthermore, there should always be one blank line between #region and #endregion
+declarations before methods or members contained in said region.
 
 ## Brace Style
 
@@ -298,15 +340,19 @@ class MyClass
 ```
 
 Conditional statements are always required to be enclosed with braces,
-irrespective of the number of lines required.
+unless it is a single call that does not require wrapping.
 
 **AVOID:**
 
 ```csharp
 if (someTest)
-    doSomething();  
+    doSomething();
+    doSomethingElse();
 
-if (someTest) doSomethingElse();
+if (someTest) 
+{
+  return;
+}
 ```
 
 **PREFER:**
@@ -315,16 +361,14 @@ if (someTest) doSomethingElse();
 if (someTest) 
 {
     DoSomething();
+    DoSomethingElse();
 }  
 
-if (someTest)
-{
-    DoSomethingElse();
-}
+if (someTest) return;
 ```
 ## Switch Statements
 
-Switch-statements come with `default` case by default (heh). If the `default` case is never reached, be sure to remove it.
+Switch-statements come with `default` case by default. If the `default` case is never reached, be sure to remove it.
 
 **AVOID:**  
   
@@ -354,7 +398,7 @@ switch (variable)
 
 ## Language
 
-Use US English spelling.
+Use US English spelling for class, method and variable names, as well as documentation.
 
 **AVOID:**
 
@@ -370,64 +414,9 @@ string color = "red";
 
 The exception here is `MonoBehaviour` as that's what the class is actually called.
 
-## Copyright Statement
 
-The following copyright statement should be included at the top of every source file:
+## Credits:
 
-    /*
-     * Copyright (c) 2021 Razeware LLC
-     * 
-     * Permission is hereby granted, free of charge, to any person obtaining a copy
-     * of this software and associated documentation files (the "Software"), to deal
-     * in the Software without restriction, including without limitation the rights
-     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-     * copies of the Software, and to permit persons to whom the Software is
-     * furnished to do so, subject to the following conditions:
-     * 
-     * The above copyright notice and this permission notice shall be included in
-     * all copies or substantial portions of the Software.
-     *
-     * Notwithstanding the foregoing, you may not use, copy, modify, merge, publish, 
-     * distribute, sublicense, create a derivative work, and/or sell copies of the 
-     * Software in any work that is designed, intended, or marketed for pedagogical or 
-     * instructional purposes related to programming, coding, application development, 
-     * or information technology.  Permission for such use, copying, modification,
-     * merger, publication, distribution, sublicensing, creation of derivative works, 
-     * or sale is expressly withheld.
-     *    
-     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-     * THE SOFTWARE.
-     */
+This style is a fork of raywenderlich's C# style guide.
 
-## Smiley Face
-
-Smiley faces are a very prominent style feature of the raywenderlich.com site!
-It is very important to have the correct smile signifying the immense amount of happiness and excitement for the coding topic. The closing square bracket ] is used because it represents the largest smile able to be captured using ASCII art. A closing parenthesis ("**:)**") creates a half-hearted smile, and thus is not preferred.
-
-**AVOID**:
-
-:)
-
-**PREFER**:
-
-:]  
-  
-> **NOTE**: Do not use smileys in your scripts.
-
-## Credits
-
-This style guide is a collaborative effort from the most stylish
-raywenderlich.com team members:
-
-- [Darryl Bayliss](https://github.com/DarrylBayliss)
-- [Sam Davies](https://github.com/sammyd)
-- [Mic Pringle](https://github.com/micpringle)
-- [Brian Moakley](https://github.com/VegetarianZombie)
-- [Ray Wenderlich](https://github.com/rwenderlich)
-- [Eric Van de Kerckhove](https://github.com/BlackDragonBE)
-
+- [raywenderlich.com](https://github.com/raywenderlich/c-sharp-style-guide)
