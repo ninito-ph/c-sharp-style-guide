@@ -38,7 +38,7 @@ This style guide is based on C# and Unity conventions.
 
 ## Comments and Documentation
 
-All methods and classes should have names that makes their purpose evident. To further aid in making code as easily comprehensible as possible, every method and class should be documented in XML, and particularly complex sections should be documented with regular comments, in a step-by-step style.
+All methods and classes should have names that makes their purpose evident. To further aid in making code as easily comprehensible as possible, every method and class should be documented in XML (except for Unity callbacks), and particularly complex sections should be documented with regular comments, in a step-by-step style.
 
 **AVOID**:
 
