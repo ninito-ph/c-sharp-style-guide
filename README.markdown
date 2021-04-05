@@ -30,6 +30,7 @@ This style guide is based on C# and Unity conventions.
   + [Indentation](#indentation)
   + [Line Length](#line-length)
   + [Vertical Spacing](#vertical-spacing)
+- [Regions](#regions)
 - [Brace Style](#brace-style)
 - [Switch Statements](#switch-statements)
 - [Language](#language)
@@ -301,6 +302,111 @@ several methods.
 
 Furthermore, there should always be one blank line between #region and #endregion
 declarations before methods or members contained in said region.
+
+## Regions
+
+All code contained within a class or struct should be separated into regions. Regions should be separated and ordered as follows:
+
+- Fields
+  - Private Fields (Private members with SerializeField attribute always come first)
+  - Protected Fields
+  - Public Fields
+- Properties
+- Methods
+  - Unity Callbacks
+  - Abstract Implementations
+  - Interface Implementations (One separate region for each interface, e.g. #region IInterface Implementation, #IOtherInterface Implementation, etc.)
+  - Private Methods
+  - Protected Methods
+  - Public Methods
+- Inner Classes/Structs (One separate region for each class, e.g. #region NestedClass Class, #region OtherNestedClass Class, etc.)
+
+**AVOID:**
+
+```csharp
+class MyClass
+{
+    public bool myBool; 
+    private int myInt;
+    protected float myFloat;
+
+    private void DoStuff()
+    {
+        if (someCondition)
+        {
+          // ...
+        }
+        else
+        {
+          // ...
+        }
+    }
+    
+    private void Start()
+    {
+        // ...
+    }
+}
+```
+
+**PREFER:**
+
+```csharp
+class MyClass
+{
+    #region Private Fields
+    
+    private int myInt;
+    
+    #endregion
+    
+    #region Protected Fields
+    
+    protected float myFloat;
+    
+    #endregion
+    
+    #region Public Fields
+    
+    public bool myBool; 
+    
+    #endregion
+
+    #region Unity Callbacks
+    
+    private void Start()
+    {
+        // ...
+    }
+    
+    #endregion
+    
+    #region ISerializationCallbackReceiver Implementation
+    
+    private void OnBeforeSerialize()
+    {
+        // ...
+    }
+    
+    #endregion
+
+    #region Private Methods
+
+    private void DoStuff()
+    {
+        if (someCondition)
+        {
+          // ...
+        }
+        else
+        {
+          // ...
+        }
+    }
+    
+    #endregion
+}
+```
 
 ## Brace Style
 
