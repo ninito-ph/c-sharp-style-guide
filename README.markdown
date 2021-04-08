@@ -453,7 +453,6 @@ unless it is a single call that does not require wrapping.
 ```csharp
 if (someTest)
     doSomething();
-    doSomethingElse();
 
 if (someTest) 
 {
