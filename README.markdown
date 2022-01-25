@@ -1,5 +1,9 @@
 # ninito-ph C# Style Guide
 
+## **PLEASE, REFER TO MY [NEW, MORE COMPREHENSIVE AND UP-TO-DATE UNITY STYLE GUIDE](https://github.com/ninito-ph/Unity-Style-Guide). THIS GUIDE HERE IS BEING LEFT FOR ARCHIVAL PURPOSES.**
+
+
+
 This style guide is a fork of raywenderlich's C# style guide.  
 
 Its overarching goals are **conciseness**, **readability** and **simplicity**. Also, this guide is written primarily for **Unity**. 
